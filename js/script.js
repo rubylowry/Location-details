@@ -136,6 +136,7 @@ document.getElementsByTagName('body')[0].appendChild(script);
 
  // var map;
  function initMap() {
+   // Map options
          // The location of Wellington
    var wellington = {lat: -41.2865, lng: 174.7762};
    var christchurch ={lat:-43.5321  ,lng: 172.6362 };
@@ -143,9 +144,12 @@ document.getElementsByTagName('body')[0].appendChild(script);
    var napier = {lat:-39.4928 ,lng: 176.9120};
 
    // The map, centered at Uluru
-   var map = new google.maps.Map(document.getElementById('map'), {zoom: 10, center: wellington});
+   var map = new google.maps.Map(document.getElementById('map'), {zoom: 2, center: wellington});
    // The marker, positioned at Uluru
-   var marker1 = new google.maps.Marker({position: wellington, map: map});
+   var marker1 = new google.maps.Marker({
+     position: wellington,
+     map: map});
+     // icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'});
    var marker2 = new google.maps.Marker({position: christchurch, map: map});
    var marker3 = new google.maps.Marker({position: auckland, map: map});
    var marker4 = new google.maps.Marker({position: napier, map: map});

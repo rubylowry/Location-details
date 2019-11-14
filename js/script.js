@@ -1,5 +1,15 @@
 console.log('Location Details');
 
+window.onload = function() {
+    if (window.jQuery) {
+        // jQuery is loaded
+        console.log("Yeah! Working");
+    } else {
+        // jQuery is not loaded
+        console.log("Doesn't Work");
+    }
+}
+
     // 1) Create config.json file inside js folder
     // 2) Remove the your key from script tag in the index.html
     // 3) replace the key with 'YourKey' in index.html
@@ -7,6 +17,23 @@ console.log('Location Details');
     // 5) ignore js/config.json in '.gitignore' plain text file
     // 6) Include script src="js/config.json"></script> before bottom 'script.js'
     // 7) Then access the key in js/script.js file
+
+     function initMap(){
+       var options = {
+         zoom:8,
+         center:{lat42.3601,lng:-71.0589}
+       }
+
+     var map = new
+     google.maps.Map(document.getElementById('map'), options);
+
+     // Listen for click on map
+     google.maps.event.addListener(map, 'click', function(event){
+    // Add bakery
+       addBakery({coords:event.latLng});
+        });
+
+
 
 var bakeries = [
   {
@@ -90,8 +117,8 @@ var bakeries = [
     name : "Pandoro Panetteria Ltd",
     id : "108",
     location : "Te Aro",
-    latitude : -41.2963745,
-    longitude: 174.7810072,
+    lat : -41.2963745,
+    lng : 174.7810072,
     type : "Bakery",
     phone : 043854478,
     rating : 4.1,
@@ -99,6 +126,11 @@ var bakeries = [
   }
 ];
 
+
+for(var i=0;i < bakeries.length;i++) {
+  // Add bakery
+  addBakery(bakeries[i]);
+}
 
 //accessiing apiKey from config.json
 var myKey = JSON.parse(apiKey); //convert JSON data into js object
@@ -110,16 +142,6 @@ var script = document.createElement('script');
 script.src = 'https://maps.googleapis.com/maps/api/js?key=' + myKey[0].key + '&callback=initMap';
 // Appending to the body of index.html
 document.getElementsByTagName('body')[0].appendChild(script);
-
- window.onload = function() {
-     if (window.jQuery) {
-         // jQuery is loaded
-         console.log("Yeah! Working");
-     } else {
-         // jQuery is not loaded
-         console.log("Doesn't Work");
-     }
- }
 
  $('#map').hide();
  $('#home').show();
@@ -134,51 +156,70 @@ document.getElementsByTagName('body')[0].appendChild(script);
  // });
 
 
+function addBakery(props){
+  var bakery = new google.maps.Marker({
+  position: props.coords,
+  map:map,
+  });
+
+  if(props.iconImage){
+    marker.setIcon(props.iconImage);
+  }
+
+  if(props.content){
+    var infoWindow = new google.maps.InfoWindow({
+      content:props.content
+    });
+
+  marker.addListener('click', function(){
+    infoWindow
+  }
+
  // var map;
- function initMap() {
-   // Map options
-         // The location of Wellington
-   var wellington = {lat: -41.2865, lng: 174.7762};
-   var christchurch ={lat:-43.5321  ,lng: 172.6362 };
-   var auckland = {lat:-36.8485  ,lng: 174.7633};
-   var napier = {lat:-39.4928 ,lng: 176.9120};
-
-   // The map, centered at Uluru
-   var map = new google.maps.Map(document.getElementById('map'), {zoom: 2, center: wellington});
-   // The marker, positioned at Uluru
-   var marker1 = new google.maps.Marker({
-     position: wellington,
-     map: map});
-     // icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'});
-   var marker2 = new google.maps.Marker({position: christchurch, map: map});
-   var marker3 = new google.maps.Marker({position: auckland, map: map});
-   var marker4 = new google.maps.Marker({position: napier, map: map});
-
-
-
-
-   var contentString = '<div id="content">'+
-
-             '<h1 id="firstHeading" class="firstHeading">Wellington</h1>'+
-                 '<div id="bodyContent">'+
-                     '<p>dfgqehfihewihfwe</p>'+
-                   '</div>'+
-       '</div>';
-
-   var infowindow = new google.maps.InfoWindow({
-     content: contentString
-   });
-
-   var marker1 = new google.maps.Marker({
-     position: wellington,
-     map: map,
-     title: 'Wellington'
-   });
-   marker1.addListener('click', function() {
-     infowindow.open(map, marker1);
-   });
+ // function initMap() {
+ //   // Map options
+ //         // The location of Wellington
+ //   var wellington = {lat: -41.2865, lng: 174.7762};
+ //   var christchurch ={lat:-43.5321  ,lng: 172.6362 };
+ //   var auckland = {lat:-36.8485  ,lng: 174.7633};
+ //   var napier = {lat:-39.4928 ,lng: 176.9120};
+ //
+ //   // The map, centered at Uluru
+ //   var map = new google.maps.Map(document.getElementById('map'), {zoom: 2, center: wellington});
+ //   // The marker, positioned at Uluru
+ //   var marker1 = new google.maps.Marker({
+ //     position: wellington,
+ //     map: map});
+ //     // icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'});
+ //   var marker2 = new google.maps.Marker({position: christchurch, map: map});
+ //   var marker3 = new google.maps.Marker({position: auckland, map: map});
+ //   var marker4 = new google.maps.Marker({position: napier, map: map});
 
 
 
 
- }
+ //   var contentString = '<div id="content">'+
+ //
+ //             '<h1 id="firstHeading" class="firstHeading">Wellington</h1>'+
+ //                 '<div id="bodyContent">'+
+ //                     '<p>dfgqehfihewihfwe</p>'+
+ //                   '</div>'+
+ //       '</div>';
+ //
+ //   var infowindow = new google.maps.InfoWindow({
+ //     content: contentString
+ //   });
+ //
+ //   var marker1 = new google.maps.Marker({
+ //     position: wellington,
+ //     map: map,
+ //     title: 'Wellington'
+ //   });
+ //   marker1.addListener('click', function() {
+ //     infowindow.open(map, marker1);
+ //   });
+ //
+ //
+ //
+ //
+ // }
